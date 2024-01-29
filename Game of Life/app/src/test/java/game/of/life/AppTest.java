@@ -28,16 +28,25 @@ class GameOfLifeTest {
      * Toutes les cellules doivent être initialisées mortes
      */
     @Test void allCellsInitializedAsEmpty() {
-        Map<int[], Integer> alivedCellsByCoords = new HashMap<>();
+        Map<int[], Boolean> alivedCellsByCoords = new HashMap<>();
         for (int row = 0; row < 4; row++) {
             for (int column = 0; column < 8; column++) {
-                Integer alivedCells = gameOfLife.countLivingNeighbours(row, column);
+                boolean alivedCells = gameOfLife.isAlived(row, column);
                 int[] coords = new int[]{row, column};
                 alivedCellsByCoords.put(coords, alivedCells);
             }
         }
-        Integer sum = alivedCellsByCoords.values().stream().reduce(0, Integer::sum);
-        assertEquals(sum, 0, alivedCellsByCoords.toString());
+        Boolean sum = alivedCellsByCoords.values().stream().allMatch(value -> value == true);
+        assertTrue(sum, alivedCellsByCoords.toString());
+    }
+
+    /**
+     * Modifier l'êtat d'une cellule et récupérer son état 
+     */
+    @Test void canAlterCellState() {
+        gameOfLife.setLivingCell(0, 0);
+
+        assertTrue(gameOfLife.isAlived(0, 0));
     }
 
     /**
@@ -92,6 +101,93 @@ class GameOfLifeTest {
         assertEquals(gameOfLife.countLivingNeighbours(0, 2), 1);
         assertEquals(gameOfLife.countLivingNeighbours(3, 2), 1);
     } 
+
+    /**
+     * CountLivingNeighbours fonctionne dans les coins
+     */
+    @Test void countLivingNeighboursInCorners() {
+        gameOfLife.setLivingCell(0, 1);
+        gameOfLife.setLivingCell(1, 1);
+        gameOfLife.setLivingCell(1, 0);
+
+        assertEquals(gameOfLife.countLivingNeighbours(0, 0), 3);
+    }
+
+    /**
+     * Nouvelle Génération - Test livingNeighbours < 2 alors on meurt
+     */
+    @Test void lessThanTwoLivingNeighbours() {
+        gameOfLife.setLivingCell(0, 0);
+
+        assertTrue(gameOfLife.isAlived(0, 0));
+        gameOfLife.nextGeneration();
+        assertFalse(gameOfLife.isAlived(0, 0));
+    }
+
+    /**
+     * Nouvelle Génération - Surpopulation
+     */
+    @Test void moreThanThreeLivingNeighbours() {
+        gameOfLife.setLivingCell(0, 0);
+        gameOfLife.setLivingCell(0, 1);
+        gameOfLife.setLivingCell(0, 2);
+        gameOfLife.setLivingCell(1, 0);
+        gameOfLife.setLivingCell(1, 1);
+
+        assertTrue(gameOfLife.isAlived(0, 1));
+        assertTrue(gameOfLife.isAlived(1, 1));
+        gameOfLife.nextGeneration();
+        assertFalse(gameOfLife.isAlived(0, 1));
+        assertFalse(gameOfLife.isAlived(1, 1));
+    }
+
+    /**
+     * Nouvelle Génération - Staying Alive
+     */
+    @Test void alivedAndTwoOrThreeNeighbours() {
+        gameOfLife.setLivingCell(0, 0);
+        gameOfLife.setLivingCell(0, 1);
+        gameOfLife.setLivingCell(0, 2);
+        gameOfLife.setLivingCell(1, 0);
+        gameOfLife.setLivingCell(1, 1);
+
+        assertTrue(gameOfLife.isAlived(0, 0));
+        assertTrue(gameOfLife.isAlived(1, 2));
+        gameOfLife.nextGeneration();
+        assertTrue(gameOfLife.isAlived(0, 0));
+        assertTrue(gameOfLife.isAlived(1, 2));
+    }
+
+    /**
+     * Nouvelle Génération - Expansion
+     */
+    @Test void deadAndThreeNeighbours() {
+        gameOfLife.setLivingCell(0, 0);
+        gameOfLife.setLivingCell(0, 1);
+        gameOfLife.setLivingCell(0, 2);
+        gameOfLife.setLivingCell(1, 0);
+        gameOfLife.setLivingCell(1, 1);
+
+        assertFalse(gameOfLife.isAlived(1, 2));
+        gameOfLife.nextGeneration();
+        assertTrue(gameOfLife.isAlived(1, 2));
+    }
+
+    /**
+     * Nouvelle Génération - Non Expansion
+     */
+    @Test void deadAndMoreThanThreeNeighbours() {
+        gameOfLife.setLivingCell(0, 0);
+        gameOfLife.setLivingCell(0, 1);
+        gameOfLife.setLivingCell(0, 2);
+        gameOfLife.setLivingCell(1, 0);
+        gameOfLife.setLivingCell(1, 1);
+        gameOfLife.setLivingCell(2, 2);
+
+        assertFalse(gameOfLife.isAlived(1, 2));
+        gameOfLife.nextGeneration();
+        assertFalse(gameOfLife.isAlived(1, 2));
+    }
 
     private GameOfLife gameOfLife;
 }

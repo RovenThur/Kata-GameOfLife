@@ -5,11 +5,11 @@ package game.of.life;
 
 public class GameOfLife {
 
-    public GameOfLife(int i, int j) {
+    public GameOfLife(int row, int column) {
         //TODO Auto-generated constructor stub
     }
 
-    public int countLivingNeighbours(int i, int j) {
+    public int countLivingNeighbours(int row, int column) {
         // TODO Auto-generated method stub
         return 1;
     }
@@ -19,9 +19,19 @@ public class GameOfLife {
         throw new UnsupportedOperationException("Unimplemented method 'getGridSize'");
     }
 
-    public Object setLivingCell(int i, int j) {
+    public Object setLivingCell(int row, int column) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setLivingCell'");
+    }
+
+    public boolean isAlived(int row, int column) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isAlived'");
+    }
+
+    public void nextGeneration() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'nextGeneration'");
     }
 
 }
