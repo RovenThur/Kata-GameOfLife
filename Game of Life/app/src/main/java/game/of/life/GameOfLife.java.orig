@@ -8,11 +8,7 @@ public class GameOfLife {
     private int rows = 0;
     private int columns = 0;
 
-    /**
-     * Constructor
-     * @param row Le nombre de lignes de notre grille
-     * @param column Le nombre de colonnes de la grille
-     */
+<<<<<<< HEAD
     public GameOfLife(int rows, int columns) {
         grid = new boolean[rows][columns];
         this.rows = rows;
@@ -26,6 +22,26 @@ public class GameOfLife {
                 grid[row][column] = false;
             }
         }
+=======
+    /**
+     * Constructor
+     * @param row Le nombre de lignes de notre grille
+     * @param column Le nombre de colonnes de la grille
+     */
+    public GameOfLife(int row, int column) {
+        //TODO Auto-generated constructor stub
+    }
+
+    /**
+     * Compte le nombre de cellules en vie autour de la cellule ciblée
+     * @param row numéro de ligne de la cellule
+     * @param column numéro de colonne de la cellule
+     * @return le nombre de cellules en vies autour de la cellule donnée en paramètres
+     */
+    public int countLivingNeighbors(int row, int column) {
+        // TODO Auto-generated method stub
+        return 1;
+>>>>>>> main
     }
 
     /**
@@ -36,13 +52,7 @@ public class GameOfLife {
         return new int[]{rows, columns};
     }
     
-    /**
-     * Retourne l'état de la cellule ciblée
-     * @param row
-     * @param column
-     * @return
-     */
-    public boolean isAlive(int row, int column) throws OutOfRangeException {
+    public boolean isAlived(int row, int column) throws OutOfRangeException {
         if (!_isInRange(row, column)) throw new OutOfRangeException();
         return grid[row][column];
     }
@@ -51,25 +61,25 @@ public class GameOfLife {
         return row >= 0 && column >= 0 && row < rows && column < columns;
     }
 
+<<<<<<< HEAD
+    public void setLivingCell(int row, int column) throws OutOfRangeException {
+        if (!_isInRange(row, column)) throw new OutOfRangeException();
+        this.grid[row][column] = true;
+=======
     /**
      * Donne vie à la cellule ciblée
      * @param row
      * @param column
      * @return
      */
-    public void setLivingCell(int row, int column) throws OutOfRangeException {
-        if (!_isInRange(row, column)) throw new OutOfRangeException();
-        this.grid[row][column] = true;
+    public void setLivingCell(int row, int column) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setLivingCell'");
+>>>>>>> main
     }
-
-    /**
-     * Compte le nombre de cellules en vie autour de la cellule ciblée
-     * @param row numéro de ligne de la cellule
-     * @param column numéro de colonne de la cellule
-     * @return le nombre de cellules en vies autour de la cellule donnée en paramètres
-     */
-    public int countLivingNeighbors(int row, int column) throws OutOfRangeException {
-        int aliveNeighbors = 0;
+    
+    public int countLivingNeighbours(int row, int column) throws OutOfRangeException {
+        int alivedNeighbours = 0;
         if (!_isInRange(row, column)) throw new OutOfRangeException();
         
         for (int parsingRow = row - 1; parsingRow <= row + 1; parsingRow ++) {
@@ -77,14 +87,26 @@ public class GameOfLife {
                 // Si outOfRange on ignore
                 if(!_isInRange(parsingRow, parsingColumn)) continue;
 
+<<<<<<< HEAD
                 // Si c'est la case, on l'ignore
                 if ((row == parsingRow) && (column == parsingColumn)) continue;
 
-                // Sinon on incrémente
-                if (isAlive(parsingRow, parsingColumn)) aliveNeighbors++;
+                // Sinon on incremente
+                if (isAlived(parsingRow, parsingColumn)) alivedNeighbours++;
             }
         }
-        return aliveNeighbors;
+        return alivedNeighbours;
+=======
+    /**
+     * Retourne l'état de la cellule ciblée
+     * @param row
+     * @param column
+     * @return
+     */
+    public boolean isAlive(int row, int column) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isAlived'");
+>>>>>>> main
     }
 
     /**
@@ -105,19 +127,22 @@ public class GameOfLife {
         }
         this.grid = nextGenerationGrid;
     }
+<<<<<<< HEAD
 
     private boolean computeNextState(int row, int column) {
         try {
-            int neighbors = this.countLivingNeighbors(row, column);
-            boolean alive = isAlive(row, column);
+            int neighbours = this.countLivingNeighbours(row, column);
+            boolean alived = isAlived(row, column);
 
-            if (alive) {
-                if (neighbors < 2) return false;
-                if (neighbors > 3) return false;
+            if (alived) {
+                if (neighbours < 2) return false;
+                if (neighbours > 3) return false;
 
                 return true;
-            } else if (neighbors == 3) return true;
+            } else if (neighbours == 3) return true;
         } catch (OutOfRangeException e) {}
         return false;
     }
+=======
+>>>>>>> main
 }
