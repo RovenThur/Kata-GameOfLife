@@ -61,8 +61,27 @@ public class GameOfLife {
     }
 
     public void nextGeneration() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'nextGeneration'");
+        boolean[][] nextGenerationGrid = new boolean[rows][columns];
+        for (int parsingRow = 0; parsingRow < rows; parsingRow++) {
+            for (int parsingColumn = 0; parsingColumn < columns; parsingColumn ++) {
+                nextGenerationGrid[parsingRow][parsingColumn] = computeNextState(parsingRow, parsingColumn);
+            }
+        }
+        this.grid = nextGenerationGrid;
     }
 
+    private boolean computeNextState(int row, int column) {
+        try {
+            int neighbours = this.countLivingNeighbours(row, column);
+            boolean alived = isAlived(row, column);
+
+            if (alived) {
+                if (neighbours < 2) return false;
+                if (neighbours > 3) return false;
+
+                return true;
+            } else if (neighbours == 3) return true;
+        } catch (OutOfRangeException e) {}
+        return false;
+    }
 }
