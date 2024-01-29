@@ -33,28 +33,28 @@ class GameOfLifeTest {
          * @throws OutOfRangeException 
          */
         @Test void allCellsInitializedAsEmpty() throws OutOfRangeException {
-            Map<String, Boolean> alivedCellsByCoords = new HashMap<>();
+            Map<String, Boolean> aliveCellsByCoords = new HashMap<>();
             for (int row = 0; row < 4; row++) {
                 for (int column = 0; column < 8; column++) {
-                    boolean alivedCells = gameOfLife.isAlived(row, column);
-                    alivedCellsByCoords.put(row + "," + column, alivedCells);
+                    boolean aliveCells = gameOfLife.isAlive(row, column);
+                    aliveCellsByCoords.put(row + "," + column, aliveCells);
                 }
             }
-            Boolean sum = alivedCellsByCoords.values().stream().allMatch(value -> !value);
-            assertTrue(sum, alivedCellsByCoords.toString());
+            Boolean sum = aliveCellsByCoords.values().stream().allMatch(value -> !value);
+            assertTrue(sum, aliveCellsByCoords.toString());
         }
     }
 
     @Nested
-    class AlterationAndControlls {
+    class AlterationAndControls {
         /**
-         * Modifier l'êtat d'une cellule et récupérer son état 
+         * Modifier l’état d'une cellule et récupérer son état 
          * @throws OutOfRangeException 
          */
         @Test void canAlterCellState() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
     
-            assertTrue(gameOfLife.isAlived(0, 0));
+            assertTrue(gameOfLife.isAlive(0, 0));
         }
     
         /**
@@ -69,138 +69,138 @@ class GameOfLifeTest {
         /**
          * Demander une opération sur une cellule hors grille lance une exception
          */
-        @Test void outOfRangeCountLivingNeighbours() {
-            assertThrows(OutOfRangeException.class, () -> gameOfLife.countLivingNeighbours(-1, 0));
-            assertThrows(OutOfRangeException.class, () -> gameOfLife.countLivingNeighbours(8, 4));
-            assertThrows(OutOfRangeException.class, () -> gameOfLife.countLivingNeighbours(8, 4));
+        @Test void outOfRangeCountLivingNeighbors() {
+            assertThrows(OutOfRangeException.class, () -> gameOfLife.countLivingNeighbors(-1, 0));
+            assertThrows(OutOfRangeException.class, () -> gameOfLife.countLivingNeighbors(8, 4));
+            assertThrows(OutOfRangeException.class, () -> gameOfLife.countLivingNeighbors(8, 4));
         }
         
         /**
          * Le compte de voisin vivant est opérationnel pour une cellule
          * @throws OutOfRangeException 
          */
-        @Test void countOneLivingNeighbour() throws OutOfRangeException {
+        @Test void countOneLivingNeighbor() throws OutOfRangeException {
             gameOfLife.setLivingCell(1,1);
     
             // La cellule ne se compte pas elle même
-            assertEquals(0, gameOfLife.countLivingNeighbours(1, 1));
+            assertEquals(0, gameOfLife.countLivingNeighbors(1, 1));
             
             // Les 8 Voisins
-            assertEquals(1, gameOfLife.countLivingNeighbours(0, 0));
-            assertEquals(1, gameOfLife.countLivingNeighbours(0, 1));
-            assertEquals(1, gameOfLife.countLivingNeighbours(0, 2));
-            assertEquals(1, gameOfLife.countLivingNeighbours(1, 0));
+            assertEquals(1, gameOfLife.countLivingNeighbors(0, 0));
+            assertEquals(1, gameOfLife.countLivingNeighbors(0, 1));
+            assertEquals(1, gameOfLife.countLivingNeighbors(0, 2));
+            assertEquals(1, gameOfLife.countLivingNeighbors(1, 0));
             
-            assertEquals(1, gameOfLife.countLivingNeighbours(1, 2));
-            assertEquals(1, gameOfLife.countLivingNeighbours(2, 0));
-            assertEquals(1, gameOfLife.countLivingNeighbours(2, 1));
-            assertEquals(1, gameOfLife.countLivingNeighbours(2, 2));
+            assertEquals(1, gameOfLife.countLivingNeighbors(1, 2));
+            assertEquals(1, gameOfLife.countLivingNeighbors(2, 0));
+            assertEquals(1, gameOfLife.countLivingNeighbors(2, 1));
+            assertEquals(1, gameOfLife.countLivingNeighbors(2, 2));
         }
     
         /**
          * Le compte est opérationnel pour plus d'une cellule vivante
          * @throws OutOfRangeException 
          */
-        @Test void countLivingNeighbours() throws OutOfRangeException {
+        @Test void countLivingNeighbors() throws OutOfRangeException {
             gameOfLife.setLivingCell(1,1);
             gameOfLife.setLivingCell(2,2);
     
             // La cellule ne se compte pas elle même
-            assertEquals(1, gameOfLife.countLivingNeighbours(1, 1));
-            assertEquals(1, gameOfLife.countLivingNeighbours(2, 2));
+            assertEquals(1, gameOfLife.countLivingNeighbors(1, 1));
+            assertEquals(1, gameOfLife.countLivingNeighbors(2, 2));
             
             // Les Voisins
-            assertEquals(2, gameOfLife.countLivingNeighbours(2, 1));
-            assertEquals(2, gameOfLife.countLivingNeighbours(1, 2));
+            assertEquals(2, gameOfLife.countLivingNeighbors(2, 1));
+            assertEquals(2, gameOfLife.countLivingNeighbors(1, 2));
     
-            assertEquals(1, gameOfLife.countLivingNeighbours(0, 2));
-            assertEquals(1, gameOfLife.countLivingNeighbours(3, 2));
+            assertEquals(1, gameOfLife.countLivingNeighbors(0, 2));
+            assertEquals(1, gameOfLife.countLivingNeighbors(3, 2));
         } 
     
         /**
-         * CountLivingNeighbours fonctionne dans les coins
+         * CountLivingNeighbors fonctionne dans les coins
          * @throws OutOfRangeException 
          */
-        @Test void countLivingNeighboursInCorners() throws OutOfRangeException {
+        @Test void countLivingNeighborsInCorners() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 1);
             gameOfLife.setLivingCell(1, 1);
             gameOfLife.setLivingCell(1, 0);
     
-            assertEquals(3, gameOfLife.countLivingNeighbours(0, 0));
+            assertEquals(3, gameOfLife.countLivingNeighbors(0, 0));
         }
     }
 
     @Nested
     class NextGenerationComputing {
         /**
-         * Nouvelle Génération - Test livingNeighbours < 2 alors on meurt
+         * Nouvelle Génération - Test livingNeighbors < 2 alors on meurt
          * @throws OutOfRangeException 
          */
-        @Test void lessThanTwoLivingNeighbours() throws OutOfRangeException {
+        @Test void lessThanTwoLivingNeighbors() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
     
-            assertTrue(gameOfLife.isAlived(0, 0));
+            assertTrue(gameOfLife.isAlive(0, 0));
             gameOfLife.nextGeneration();
-            assertFalse(gameOfLife.isAlived(0, 0));
+            assertFalse(gameOfLife.isAlive(0, 0));
         }
     
         /**
          * Nouvelle Génération - Surpopulation
          * @throws OutOfRangeException 
          */
-        @Test void moreThanThreeLivingNeighbours() throws OutOfRangeException {
+        @Test void moreThanThreeLivingNeighbors() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
             gameOfLife.setLivingCell(0, 1);
             gameOfLife.setLivingCell(0, 2);
             gameOfLife.setLivingCell(1, 0);
             gameOfLife.setLivingCell(1, 1);
     
-            assertTrue(gameOfLife.isAlived(0, 1));
-            assertTrue(gameOfLife.isAlived(1, 1));
+            assertTrue(gameOfLife.isAlive(0, 1));
+            assertTrue(gameOfLife.isAlive(1, 1));
             gameOfLife.nextGeneration();
-            assertFalse(gameOfLife.isAlived(0, 1));
-            assertFalse(gameOfLife.isAlived(1, 1));
+            assertFalse(gameOfLife.isAlive(0, 1));
+            assertFalse(gameOfLife.isAlive(1, 1));
         }
     
         /**
          * Nouvelle Génération - Staying Alive
          * @throws OutOfRangeException 
          */
-        @Test void alivedAndTwoOrThreeNeighbours() throws OutOfRangeException {
+        @Test void aliveAndTwoOrThreeNeighbors() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
             gameOfLife.setLivingCell(0, 1);
             gameOfLife.setLivingCell(0, 2);
             gameOfLife.setLivingCell(1, 0);
             gameOfLife.setLivingCell(1, 1);
     
-            assertTrue(gameOfLife.isAlived(0, 0));
-            assertTrue(gameOfLife.isAlived(1, 0));
+            assertTrue(gameOfLife.isAlive(0, 0));
+            assertTrue(gameOfLife.isAlive(1, 0));
             gameOfLife.nextGeneration();
-            assertTrue(gameOfLife.isAlived(0, 0));
-            assertTrue(gameOfLife.isAlived(1, 0));
+            assertTrue(gameOfLife.isAlive(0, 0));
+            assertTrue(gameOfLife.isAlive(1, 0));
         }
     
         /**
          * Nouvelle Génération - Expansion
          * @throws OutOfRangeException 
          */
-        @Test void deadAndThreeNeighbours() throws OutOfRangeException {
+        @Test void deadAndThreeNeighbors() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
             gameOfLife.setLivingCell(0, 1);
             gameOfLife.setLivingCell(0, 2);
             gameOfLife.setLivingCell(1, 0);
             gameOfLife.setLivingCell(1, 1);
     
-            assertFalse(gameOfLife.isAlived(1, 2));
+            assertFalse(gameOfLife.isAlive(1, 2));
             gameOfLife.nextGeneration();
-            assertTrue(gameOfLife.isAlived(1, 2));
+            assertTrue(gameOfLife.isAlive(1, 2));
         }
     
         /**
          * Nouvelle Génération - Non Expansion
          * @throws OutOfRangeException 
          */
-        @Test void deadAndMoreThanThreeNeighbours() throws OutOfRangeException {
+        @Test void deadAndMoreThanThreeNeighbors() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
             gameOfLife.setLivingCell(0, 1);
             gameOfLife.setLivingCell(0, 2);
@@ -208,9 +208,9 @@ class GameOfLifeTest {
             gameOfLife.setLivingCell(1, 1);
             gameOfLife.setLivingCell(2, 2);
     
-            assertFalse(gameOfLife.isAlived(1, 2));
+            assertFalse(gameOfLife.isAlive(1, 2));
             gameOfLife.nextGeneration();
-            assertFalse(gameOfLife.isAlived(1, 2));
+            assertFalse(gameOfLife.isAlive(1, 2));
         }
     }
 

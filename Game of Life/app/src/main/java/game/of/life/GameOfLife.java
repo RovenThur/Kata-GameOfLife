@@ -5,33 +5,68 @@ package game.of.life;
 
 public class GameOfLife {
 
+    /**
+     * Constructor
+     * @param row Le nombre de lignes de notre grille
+     * @param column Le nombre de colonnes de la grille
+     */
     public GameOfLife(int row, int column) {
         //TODO Auto-generated constructor stub
     }
 
-    public int countLivingNeighbours(int row, int column) {
+    /**
+     * Compte le nombre de cellules en vie autour de la cellule ciblée
+     * @param row numéro de ligne de la cellule
+     * @param column numéro de colonne de la cellule
+     * @return le nombre de cellules en vies autour de la cellule donnée en paramètres
+     */
+    public int countLivingNeighbors(int row, int column) {
         // TODO Auto-generated method stub
         return 1;
     }
 
+    /**
+     * Retourne les dimensions de la grille
+     * @return
+     */
     public int[] getGridSize() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getGridSize'");
     }
 
-    public Object setLivingCell(int row, int column) {
+    /**
+     * Donne vie à la cellule ciblée
+     * @param row
+     * @param column
+     * @return
+     */
+    public void setLivingCell(int row, int column) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setLivingCell'");
     }
 
-    public boolean isAlived(int row, int column) {
+    /**
+     * Retourne l'état de la cellule ciblée
+     * @param row
+     * @param column
+     * @return
+     */
+    public boolean isAlive(int row, int column) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isAlived'");
     }
 
+    /**
+     * Met à jour la grille en appliquant les règles du Jeu de la Vie.
+     * Si une cellule a moins de deux voisins en vie, elle meure
+     * Si une cellule a plus de trois voisins en vie, elle meure
+     * Si une cellule en vie a 2 ou 3 voisins en vie, elle reste en vie
+     * Si une cellule morte a trois voisins en vie, elle prend vie 
+     * 
+     * Toutes les règles sont appliquées simultanément
+     */ 
     public void nextGeneration() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'nextGeneration'");
     }
-
 }
