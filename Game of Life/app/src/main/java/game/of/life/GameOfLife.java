@@ -33,18 +33,31 @@ public class GameOfLife {
     }
     
     private boolean _isInRange(int row, int column) {
-        return row >= 0 && column >= 0 && row <= rows && column <= columns;
+        return row >= 0 && column >= 0 && row < rows && column < columns;
     }
 
-    public int countLivingNeighbours(int row, int column) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'countLivingNeighbours'");
+    public void setLivingCell(int row, int column) throws OutOfRangeException {
+        if (!_isInRange(row, column)) throw new OutOfRangeException();
+        this.grid[row][column] = true;
     }
+    
+    public int countLivingNeighbours(int row, int column) throws OutOfRangeException {
+        int alivedNeighbours = 0;
+        if (!_isInRange(row, column)) throw new OutOfRangeException();
+        
+        for (int parsingRow = row - 1; parsingRow <= row + 1; parsingRow ++) {
+            for (int parsingColumn = column - 1; parsingColumn <= column + 1; parsingColumn ++) {
+                // Si outOfRange on ignore
+                if(!_isInRange(parsingRow, parsingColumn)) continue;
 
+                // Si c'est la case, on l'ignore
+                if ((row == parsingRow) && (column == parsingColumn)) continue;
 
-    public Object setLivingCell(int row, int column) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setLivingCell'");
+                // Sinon on incremente
+                if (isAlived(parsingRow, parsingColumn)) alivedNeighbours++;
+            }
+        }
+        return alivedNeighbours;
     }
 
     public void nextGeneration() {
