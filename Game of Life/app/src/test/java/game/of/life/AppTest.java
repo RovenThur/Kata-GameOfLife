@@ -60,11 +60,16 @@ class GameOfLifeTest {
         /**
          * Demander une opération sur une cellule hors grille lance une exception
          */
-        @Test void outOfRange() {
+        @Test void outOfRangeSetLivingCell() {
             assertThrows(OutOfRangeException.class, () -> gameOfLife.setLivingCell(-1, 0));
             assertThrows(OutOfRangeException.class, () -> gameOfLife.setLivingCell(8, 4));
             assertThrows(OutOfRangeException.class, () -> gameOfLife.setLivingCell(8, 4));
+        }
     
+        /**
+         * Demander une opération sur une cellule hors grille lance une exception
+         */
+        @Test void outOfRangeCountLivingNeighbours() {
             assertThrows(OutOfRangeException.class, () -> gameOfLife.countLivingNeighbours(-1, 0));
             assertThrows(OutOfRangeException.class, () -> gameOfLife.countLivingNeighbours(8, 4));
             assertThrows(OutOfRangeException.class, () -> gameOfLife.countLivingNeighbours(8, 4));
@@ -72,53 +77,56 @@ class GameOfLifeTest {
         
         /**
          * Le compte de voisin vivant est opérationnel pour une cellule
+         * @throws OutOfRangeException 
          */
-        @Test void foundOneLivingNeighbour() {
+        @Test void countOneLivingNeighbour() throws OutOfRangeException {
             gameOfLife.setLivingCell(1,1);
     
             // La cellule ne se compte pas elle même
-            assertEquals(gameOfLife.countLivingNeighbours(1, 1), 0);
+            assertEquals(0, gameOfLife.countLivingNeighbours(1, 1));
             
             // Les 8 Voisins
-            assertEquals(gameOfLife.countLivingNeighbours(0, 0), 1);
-            assertEquals(gameOfLife.countLivingNeighbours(0, 1), 1);
-            assertEquals(gameOfLife.countLivingNeighbours(0, 2), 1);
-            assertEquals(gameOfLife.countLivingNeighbours(1, 0), 1);
+            assertEquals(1, gameOfLife.countLivingNeighbours(0, 0));
+            assertEquals(1, gameOfLife.countLivingNeighbours(0, 1));
+            assertEquals(1, gameOfLife.countLivingNeighbours(0, 2));
+            assertEquals(1, gameOfLife.countLivingNeighbours(1, 0));
             
-            assertEquals(gameOfLife.countLivingNeighbours(1, 2), 1);
-            assertEquals(gameOfLife.countLivingNeighbours(2, 0), 1);
-            assertEquals(gameOfLife.countLivingNeighbours(2, 1), 1);
-            assertEquals(gameOfLife.countLivingNeighbours(2, 2), 1);
+            assertEquals(1, gameOfLife.countLivingNeighbours(1, 2));
+            assertEquals(1, gameOfLife.countLivingNeighbours(2, 0));
+            assertEquals(1, gameOfLife.countLivingNeighbours(2, 1));
+            assertEquals(1, gameOfLife.countLivingNeighbours(2, 2));
         }
     
         /**
          * Le compte est opérationnel pour plus d'une cellule vivante
+         * @throws OutOfRangeException 
          */
-        @Test void foundLivingNeighbours() {
+        @Test void countLivingNeighbours() throws OutOfRangeException {
             gameOfLife.setLivingCell(1,1);
             gameOfLife.setLivingCell(2,2);
     
             // La cellule ne se compte pas elle même
-            assertEquals(gameOfLife.countLivingNeighbours(1, 1), 0);
-            assertEquals(gameOfLife.countLivingNeighbours(2, 2), 0);
+            assertEquals(1, gameOfLife.countLivingNeighbours(1, 1));
+            assertEquals(1, gameOfLife.countLivingNeighbours(2, 2));
             
             // Les Voisins
-            assertEquals(gameOfLife.countLivingNeighbours(2, 1), 2);
-            assertEquals(gameOfLife.countLivingNeighbours(1, 2), 2);
+            assertEquals(2, gameOfLife.countLivingNeighbours(2, 1));
+            assertEquals(2, gameOfLife.countLivingNeighbours(1, 2));
     
-            assertEquals(gameOfLife.countLivingNeighbours(0, 2), 1);
-            assertEquals(gameOfLife.countLivingNeighbours(3, 2), 1);
+            assertEquals(1, gameOfLife.countLivingNeighbours(0, 2));
+            assertEquals(1, gameOfLife.countLivingNeighbours(3, 2));
         } 
     
         /**
          * CountLivingNeighbours fonctionne dans les coins
+         * @throws OutOfRangeException 
          */
-        @Test void countLivingNeighboursInCorners() {
+        @Test void countLivingNeighboursInCorners() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 1);
             gameOfLife.setLivingCell(1, 1);
             gameOfLife.setLivingCell(1, 0);
     
-            assertEquals(gameOfLife.countLivingNeighbours(0, 0), 3);
+            assertEquals(3, gameOfLife.countLivingNeighbours(0, 0));
         }
     }
 
@@ -166,10 +174,10 @@ class GameOfLifeTest {
             gameOfLife.setLivingCell(1, 1);
     
             assertTrue(gameOfLife.isAlived(0, 0));
-            assertTrue(gameOfLife.isAlived(1, 2));
+            assertTrue(gameOfLife.isAlived(1, 0));
             gameOfLife.nextGeneration();
             assertTrue(gameOfLife.isAlived(0, 0));
-            assertTrue(gameOfLife.isAlived(1, 2));
+            assertTrue(gameOfLife.isAlived(1, 0));
         }
     
         /**
