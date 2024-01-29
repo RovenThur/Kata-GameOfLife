@@ -4,29 +4,47 @@
 package game.of.life;
 
 public class GameOfLife {
+    private boolean[][] grid;
+    private int rows = 0;
+    private int columns = 0;
 
-    public GameOfLife(int row, int column) {
-        //TODO Auto-generated constructor stub
+    public GameOfLife(int rows, int columns) {
+        grid = new boolean[rows][columns];
+        this.rows = rows;
+        this.columns = columns;
+        this._initializeGrid();
+    }
+
+    private void _initializeGrid() {
+        for(int row = 0; row < rows; row ++) {
+            for ( int column = 0; column < columns; column ++) {
+                grid[row][column] = false;
+            }
+        }
+    }
+
+    public int[] getGridSize() {
+        return new int[]{rows, columns};
+    }
+    
+    public boolean isAlived(int row, int column) throws OutOfRangeException {
+        if (!_isInRange(row, column)) throw new OutOfRangeException();
+        return grid[row][column];
+    }
+    
+    private boolean _isInRange(int row, int column) {
+        return row >= 0 && column >= 0 && row <= rows && column <= columns;
     }
 
     public int countLivingNeighbours(int row, int column) {
         // TODO Auto-generated method stub
-        return 1;
+        throw new UnsupportedOperationException("Unimplemented method 'countLivingNeighbours'");
     }
 
-    public int[] getGridSize() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getGridSize'");
-    }
 
     public Object setLivingCell(int row, int column) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setLivingCell'");
-    }
-
-    public boolean isAlived(int row, int column) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isAlived'");
     }
 
     public void nextGeneration() {
