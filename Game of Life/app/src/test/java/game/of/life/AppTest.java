@@ -30,17 +30,17 @@ class GameOfLifeTest {
     
         /**
          * Toutes les cellules doivent être initialisées mortes
+         * @throws OutOfRangeException 
          */
-        @Test void allCellsInitializedAsEmpty() {
-            Map<int[], Boolean> alivedCellsByCoords = new HashMap<>();
+        @Test void allCellsInitializedAsEmpty() throws OutOfRangeException {
+            Map<String, Boolean> alivedCellsByCoords = new HashMap<>();
             for (int row = 0; row < 4; row++) {
                 for (int column = 0; column < 8; column++) {
                     boolean alivedCells = gameOfLife.isAlived(row, column);
-                    int[] coords = new int[]{row, column};
-                    alivedCellsByCoords.put(coords, alivedCells);
+                    alivedCellsByCoords.put(row + "," + column, alivedCells);
                 }
             }
-            Boolean sum = alivedCellsByCoords.values().stream().allMatch(value -> value == true);
+            Boolean sum = alivedCellsByCoords.values().stream().allMatch(value -> !value);
             assertTrue(sum, alivedCellsByCoords.toString());
         }
     }
@@ -49,8 +49,9 @@ class GameOfLifeTest {
     class AlterationAndControlls {
         /**
          * Modifier l'êtat d'une cellule et récupérer son état 
+         * @throws OutOfRangeException 
          */
-        @Test void canAlterCellState() {
+        @Test void canAlterCellState() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
     
             assertTrue(gameOfLife.isAlived(0, 0));
@@ -125,8 +126,9 @@ class GameOfLifeTest {
     class NextGenerationComputing {
         /**
          * Nouvelle Génération - Test livingNeighbours < 2 alors on meurt
+         * @throws OutOfRangeException 
          */
-        @Test void lessThanTwoLivingNeighbours() {
+        @Test void lessThanTwoLivingNeighbours() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
     
             assertTrue(gameOfLife.isAlived(0, 0));
@@ -136,8 +138,9 @@ class GameOfLifeTest {
     
         /**
          * Nouvelle Génération - Surpopulation
+         * @throws OutOfRangeException 
          */
-        @Test void moreThanThreeLivingNeighbours() {
+        @Test void moreThanThreeLivingNeighbours() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
             gameOfLife.setLivingCell(0, 1);
             gameOfLife.setLivingCell(0, 2);
@@ -153,8 +156,9 @@ class GameOfLifeTest {
     
         /**
          * Nouvelle Génération - Staying Alive
+         * @throws OutOfRangeException 
          */
-        @Test void alivedAndTwoOrThreeNeighbours() {
+        @Test void alivedAndTwoOrThreeNeighbours() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
             gameOfLife.setLivingCell(0, 1);
             gameOfLife.setLivingCell(0, 2);
@@ -170,8 +174,9 @@ class GameOfLifeTest {
     
         /**
          * Nouvelle Génération - Expansion
+         * @throws OutOfRangeException 
          */
-        @Test void deadAndThreeNeighbours() {
+        @Test void deadAndThreeNeighbours() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
             gameOfLife.setLivingCell(0, 1);
             gameOfLife.setLivingCell(0, 2);
@@ -185,8 +190,9 @@ class GameOfLifeTest {
     
         /**
          * Nouvelle Génération - Non Expansion
+         * @throws OutOfRangeException 
          */
-        @Test void deadAndMoreThanThreeNeighbours() {
+        @Test void deadAndMoreThanThreeNeighbours() throws OutOfRangeException {
             gameOfLife.setLivingCell(0, 0);
             gameOfLife.setLivingCell(0, 1);
             gameOfLife.setLivingCell(0, 2);
